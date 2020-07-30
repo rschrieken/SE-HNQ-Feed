@@ -1,0 +1,54 @@
+doctype html
+
+html
+
+  include includes/head.pug
+  
+  body
+    
+    div(class='container')
+    
+      include includes/menu.pug
+
+      h2 Status
+
+      section
+        div(class='row')
+          div(class='col-sm')
+            div Last Refresh 
+              - 
+                var lf = new Date(lastRefresh);
+                function pad(num) {
+                   var ps = num < 10 ? '0' + num: num.toString(); 
+                   return ps;
+                }
+              span= lf.getFullYear()+'-'+pad(lf.getMonth()+1)+'-'+lf.getDate()+ ' ' + lf.getHours()+':'+lf.getMinutes()+':' + pad(lf.getSeconds())
+          div(class='col-sm')
+            div Readers
+              ul
+                each val, key in agents
+                  li= key + ' ' + val
+
+      section 
+        h2 Hot Sites
+        table(class='table')
+          thead
+            tr
+              th
+              th Site
+              th Count
+              th Score
+              th Answers
+          tbody  
+            each site in sites
+              tr
+                td
+                  img(src =site.icon)
+
+                td #{site.site}
+                td #{site.count}
+                td #{site.score}
+                td #{site.answers}
+
+
+      include includes/foot.pug

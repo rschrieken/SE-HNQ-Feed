@@ -1,0 +1,23 @@
+/* styles */
+
+
+body {
+  padding: 30px;
+}
+
+td {
+  padding: 5px;
+  margin: 5px;
+}
+
+th {
+  padding: 5px;
+  margin: 5px;
+}
+
+
+
+td img {
+  width: 32px;
+  height: 32px;
+}

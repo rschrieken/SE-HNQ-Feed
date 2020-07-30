@@ -1,0 +1,55 @@
+doctype html
+
+html
+
+  include includes/head.pug
+  
+  body
+    div(class='container')
+    
+      include includes/menu.pug
+      
+      h2 Introduction
+
+      p This is a simple Hot Network Questions Custom RSS feed filter
+
+      p 
+       | it is based on the work done in 
+       a( href="https://loutish-rod.glitch.me/") SE Hot Network Scraper
+
+      p
+       | Enjoying this service? It is free to use but it costs money to host. Consider donating  
+       form( action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top")
+          input( type="hidden" name="cmd" value="_donations")
+          input( type="hidden" name="business" value= paylpalbusinesscode )
+          input( type="hidden" name="currency_code" value="EUR" )
+          input( type="hidden" name="amount" value="1" )
+          input( type="image" src="https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" )
+          img( alt="" border="0" src="https://www.paypal.com/en_NL/i/scr/pixel.gif" width="1" height="1" )
+
+      h2 How does this app work
+
+      p 
+        | The /hnq/:site endpoint accepts a site or list of sites to include / exclude from the 
+        a( href="https://stackexchange.com/hot-questions-for-mobile") Hot Network Questions List for Mobile
+
+      p 
+       | for example 
+       a( href="https://lackadaisical-appeal.glitch.me/hnq/askubuntu") /hnq/askubuntu
+       |  will filter the current HNQ list to only posts that come from askubuntu.com.
+
+      p to have both English Language Learners (ell) and English Langusge Usage (english) do
+       a( href="https://lackadaisical-appeal.glitch.me/hnq/+ell+english") /hnq/+ell+english 
+
+      p to have all sites that are not in the stackexchange domain do
+         a( href="https://lackadaisical-appeal.glitch.me/hnq/-stackexchange") /hnq/-stackexchange 
+
+      p The logic will first apply what you want to include and then runs the exclude logic
+
+      h2 Configuration in the chatroom
+
+      p add the url in the feeds tab of your chatroom. 
+
+      img(src="https://cdn.glitch.com/6384f34c-f00d-443b-b497-4ad0624d17e2%2Fadd-feed.PNG?1534086670858")
+
+      include includes/foot.pug
