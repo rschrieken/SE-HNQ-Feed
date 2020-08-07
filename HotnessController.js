@@ -1,16 +1,53 @@
+const UserAgents = require('./useragents.js');
+var useragents = new UserAgents();
 
 function HotnessController(hns) {
     
-  function getData(site, hostname, originalUrl, useragent) {
+  function getData(site, hostname, originalUrl, useragent, rawquery) {
     
     // parse +{site}+{site}-{site} paarameter in a filter
-    function ParseSite(site) {
+    function ParseSite(site, query) {
       var filter = {
         select: [],
         deselect: [],
         exact: []
       }, add = 0, c, singleSite = '';
 
+      function handleQuery(result, item) {
+        var keys = Object.getOwnPropertyNames(query);
+        if (result === true && keys.length > 0 && keys.length < 16) {
+          for(var key in query){
+            var parts = key.split(' ');
+            console.log('query', parts);
+            if (parts.length >= 3){
+              var fldval = item[parts[0]];
+              if (fldval !== undefined) {
+                console.log('fld val', fldval);
+                switch(parts[1]) {
+                  case 'gt':
+                    result = fldval > parts[2];
+                    break;
+                  case 'lt':
+                    result = fldval < parts[2];
+                    break;
+                  case 'ge':
+                    result = fldval >= parts[2];
+                    break;
+                  case 'le':
+                    result = fldval <= parts[2];
+                    break;
+                  default:
+                    console.warn('op invalid', parts);
+                }
+              }
+            } else {
+              console.warn('not valid ', parts)
+            }
+          }
+        }
+        return result;
+      }
+      
       function isSiteSelected(item) {
         var result = (filter.select.length === 0 && filter.exact.length === 0), current;
         // add if site matches
@@ -25,7 +62,7 @@ function HotnessController(hns) {
         for(var selectedSite in filter.exact) {
           
           current = filter.exact[selectedSite];
-          console.log(selectedSite, current, item);
+          // console.log(selectedSite, current, item);
           if (item.site && item.site === current)
           {
             result = true;
@@ -41,6 +78,34 @@ function HotnessController(hns) {
             break;
           }
         }
+        result = handleQuery(result, item);
+        /*
+        var keys = Object.getOwnPropertyNames(query);
+        if (result === true && keys.length > 0 && keys.length < 16) {
+          for(var key in query){
+            var parts = key.split(' ');
+            console.log('query', parts);
+            if (parts.length >= 3){
+              var fldval = item[parts[0]];
+              if (fldval !== undefined) {
+                console.log('fld val', fldval);
+                switch(parts[1]) {
+                  case 'gt':
+                    result = fldval > parts[2];
+                    break;
+                  case 'lt':
+                    result = fldval < parts[2];
+                    break;
+                  default:
+                    console.warn('op invalid', parts);
+                }
+              }
+            } else {
+              console.warn('not valid ', parts)
+            }
+          }
+          
+        }*/
 
         return result;
       }
@@ -95,9 +160,14 @@ function HotnessController(hns) {
       hns.getData().then( (d) => {
         
         if (d && d.length > 0) {
-          siteFilter = new ParseSite(site);
-        
+          siteFilter = new ParseSite(site, rawquery);
+          var ts = Date.now();
+          
           d.forEach(function(item) {
+          //  var x = (ts - item.creation_date * 1000) / 500000;
+            
+           // console.log('time diff / rate ', ts, Math.sin(item.display_score / x) , item.display_score );
+            
             if (siteFilter.isSiteSelected(item))
             {
               feed.feeds.push(
@@ -111,10 +181,7 @@ function HotnessController(hns) {
               );
             }
           } );
-          hns.collectStats({
-            query: originalUrl.replace('/hnq/',''),
-            userAgent: useragent
-          });
+          useragents.store(useragent, originalUrl.replace('/hnq/',''));
         }
         resolve(feed);
       }).catch(reject);

@@ -1,0 +1,27 @@
+extends shared/layout.pug
+
+block content
+      
+  h2 Chatrooms with a Hot Network Question  feed
+
+  p The following rooms have an RSS feed configured to receive Hot Network Questions
+
+  p 
+    i not on the list? Ping 
+      a(href="https://chat.stackexchange.com/users/60548/rene?tab=general") rene.
+
+  section 
+    table(class='table')
+      thead
+        tr
+          th Server
+          th Room
+      tbody
+        each room in rooms
+          tr
+            td #{room.server}
+            td 
+              a(href =room.url)
+                =room.name
+
+            

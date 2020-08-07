@@ -1,0 +1,16 @@
+div(class='card')
+  div(class='card-body')
+    h5(class='card-title') Support
+    h6(class='card-subtitle text-muted') Enjoying this service?
+    p(class='card-text')
+    | It is free to use but it costs money to host. Consider donating. 
+    p
+    form( action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class='text-center')
+      input( type="hidden" name="cmd" value="_donations")
+      input( type="hidden" name="business" value= paypalbusinesscode )
+      input( type="hidden" name="currency_code" value="EUR" )
+      input( type="hidden" name="amount" value="1" )
+      input( type="image" src="https://www.paypalobjects.com/en_US/NL/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" )
+      img( alt="" border="0" src="https://www.paypal.com/en_NL/i/scr/pixel.gif" width="1" height="1" )
+
+      

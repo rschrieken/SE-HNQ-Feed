@@ -1,54 +1,56 @@
-doctype html
+extends shared/layout.pug
 
-html
+block content
 
-  include includes/head.pug
-  
-  body
-    
-    div(class='container')
-    
-      include includes/menu.pug
+  h2 Status
 
-      h2 Status
+  section
+    div(class='row')
+      div(class='col-sm')
+        div Last Refresh 
+          - 
+            var lf = new Date(lastRefresh);
+            function pad(num) {
+               var ps = num < 10 ? '0' + num: num.toString(); 
+               return ps;
+            }
+            
+            function toHumanDate(ts)
+            {
+              if (ts === undefined) return '';
+              var lf = new Date(ts);  
+              return [lf.getFullYear(), pad(lf.getMonth()+1), pad(lf.getDate())].join('-') + ' ' + [pad(lf.getHours()), pad(lf.getMinutes()), pad(lf.getSeconds())].join(':');
+            }
+          span= toHumanDate(lastRefresh)
+      div(class='col-sm')
+        div RSS readers
+          ul
+            each val, key in agents
+              li= key + ' ' + val
 
-      section
-        div(class='row')
-          div(class='col-sm')
-            div Last Refresh 
-              - 
-                var lf = new Date(lastRefresh);
-                function pad(num) {
-                   var ps = num < 10 ? '0' + num: num.toString(); 
-                   return ps;
-                }
-              span= lf.getFullYear()+'-'+pad(lf.getMonth()+1)+'-'+lf.getDate()+ ' ' + lf.getHours()+':'+lf.getMinutes()+':' + pad(lf.getSeconds())
-          div(class='col-sm')
-            div Readers
-              ul
-                each val, key in agents
-                  li= key + ' ' + val
+  section 
+    h2 Hot Sites
+    table(class='table')
+      thead
+        tr
+          th
+          th Site
+          th Count
+          th Score
+          th Answers
+          th Tags
+      tbody  
+        each site in sites
+          tr
+            td
+              img(src =site.icon)
 
-      section 
-        h2 Hot Sites
-        table(class='table')
-          thead
-            tr
-              th
-              th Site
-              th Count
-              th Score
-              th Answers
-          tbody  
-            each site in sites
-              tr
-                td
-                  img(src =site.icon)
-
-                td #{site.site}
-                td #{site.count}
-                td #{site.score}
-                td #{site.answers}
-
-
-      include includes/foot.pug
+            td 
+              a(href= 'https://' + site.site)
+                = site.site.replace('.stackexchange.com','')
+            td #{site.count}
+            td #{site.score.toFixed(2)}
+            td #{site.answers}
+            td 
+              each tag in site.tags
+                span(class='badge badge-pill') #{tag}

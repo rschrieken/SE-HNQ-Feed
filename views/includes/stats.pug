@@ -1,0 +1,43 @@
+-
+  function toHumanRelativeTime(ts) {
+    var second = 1000;
+    var minute = 60 * second;
+    var hour = 60 * minute;
+    var day = 24 * hour;
+    
+    var now = new Date(Date.now()).getTime();
+    if (ts === undefined) return '(unknown)';
+    var diff = now - ts;
+    var rel;
+    if (diff < second) {
+      rel = 'less than a second';
+    } else if (diff < minute) {
+      rel = 'less than a minute';
+    } else if (diff < hour) {
+      rel = 'less than ' + Math.floor(diff/minute) + ' minutes';
+    } else {
+      rel = 'a long time';
+    } 
+    return rel + ' ago' ;
+  }
+
+div(class='card')
+  div(class='card-body')
+    h5(class='card-title') Statistics
+    h6(class='card-subtitle text-muted') To feed the curious
+    p(class='card-text')
+      dl
+        dt Last refresh
+        dd(class='relative' data-time= summary.lastRefresh)= toHumanRelativeTime(summary.lastRefresh)
+        dt Useragents
+        dd
+          ul
+            each ua in summary.agents
+              li= ua.agent
+        dt Top 3 queries
+        dd 
+          ol
+            each q in summary.queries
+              li= q.query.replace('.stackexchange.com','') + ' ' + q.count
+            
+    a(href='/status' class='card-link') Details

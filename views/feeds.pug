@@ -1,0 +1,111 @@
+extends shared/layout.pug
+
+block content
+
+  h2 Create a feed
+  
+  p Here you can create a feed for your chatroom or any RSS feed reader
+  
+  div(class='accordion' id='feedsetup')
+    div(class='card')
+      div(class='card-header' id='create')
+        h3(class='mb-0')
+          button(class='btn btn-primary' data-toggle='collapse' data-target='#createCnt' aria-expanded='true' aria-controls='createCnt') Understand the path
+      div(id='createCnt' class='collapse show' aria-labelledby='create' data-parent='#feedsetup')
+        div(class='card-body')
+          p you'll be creating an RSS feed url that start with 
+            code https://lackadaisical-appeal.glitch.me 
+            | followed by the path 
+            code /hnq/ 
+            | and ends with 
+            | the selection of the site or sites. Start with an so called operation character, followed by (part of) the url of the site for the operation
+            | there are three operators that can be prepended to the url to search for:
+          ul
+            li +  To include the sites that match
+            li -  To exclude the sites that match
+            li =  To achieve an exact match
+    div(class='card')
+      div(class='card-header' id='combine')
+        h3(class='mb-0')
+          button(class='btn btn-primary' data-toggle='collapse' data-target='#combineCnt' aria-expanded='false' aria-controls='combineCnt') Make the selection
+      div(id='combineCnt' class='collapse' aria-labelledby='combine' data-parent='#feedsetup')
+        div(class='card-body')
+          p You can combine multiple operators from one feed, remember you don't need the whole server name. 
+          p For example a feed for Super User and Server Fault you would use 
+            code +superuser+serverfault
+          p A feed for all sites that end with cs but not electronics the url would end in 
+            code +cs-electronics
+          p A feed for an exact match on mathoverflow.net you would use 
+            code =mathoverflow.net
+          p Tip: You can test your feed by pasting the whole url in the addressbar of your browser. See the examples below in Ready made Feeds
+    div(class='card')
+      div(class='card-header' id='install')
+        h3(class='mb-0')
+          button(class='btn btn-primary' data-toggle='collapse' data-target='#installCnt' aria-expanded='false' aria-controls='installCnt') Setup the feed
+      div(id='installCnt' class='collapse' aria-labelledby='install' data-parent='#feedsetup')
+        div(class='card-body')
+          p If you have included/excluded all you need and created the complete RSS feed url you setup your chatroom:
+          ol
+           li Goto the info page of your chatroom
+           li Click on the Feeds tab
+           li Scroll to the Add a new feed section 
+           li Clickin the textbox after 
+             i New feed items from the URL
+           li Paste your url in the textbox
+           li Select how you want to feed items to appear 
+           li Click 
+             i add this feed
+          p Refer to this 
+           a(href='https://cdn.glitch.com/6384f34c-f00d-443b-b497-4ad0624d17e2%2Fadd-feed.PNG?v=1596407323572') screenshot 
+           | in case something is unclear
+          p You're all set now.
+
+  p
+  
+  h3 Ready made feeds
+
+  p Here are some read-to-go examples for Hot Network Questions from around the Stack Exchange Network, including Stack Overflow
+
+  div(class='row')
+    div(class='col-sm-4')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') Ask Ubuntu
+          p(class='card-text')
+            pre /hnq/askubuntu
+          a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/askubuntu' target='_blank')
+           | Try it here
+    div(class='col-sm-4')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') The English sites
+          p(class='card-text')
+            pre /hnq/ell+english
+          a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/ell+english' target='_blank')
+           | Try it here
+    div(class='col-sm-4')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') Not Stack Exchange
+          p(class='card-text')
+            pre /hnq/-stackexchange
+          a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/-stackexchange' target='_blank')
+           | Try it here
+  div(class='row mt-4')
+    div(class='col-sm-4')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') Trilogy
+          p(class='card-text')
+            pre /hnq/stacko+super+fault
+          a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/stackoverflow+super+serverfault' target='_blank')
+           | Try it here
+    div(class='col-sm-4')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') Exact match
+          p(class='card-text')
+            pre /hnq/=cs.stackexchange.com
+          a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/=cs.stackexchange.com' target='_blank')
+           | Try it here
+

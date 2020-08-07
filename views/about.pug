@@ -1,19 +1,11 @@
-doctype html
+extends shared/layout.pug
 
-html
+block content
+      
+  h2 About
 
-  include includes/head.pug
-  
-  body
-    
-    div(class='container')
-    
-      include includes/menu.pug
-      
-      h2 About
-      
-      p 
-      | Created by 
-      a( href="https://meta.stackexchange.com/users/158100/rene") rene
-      | &nbsp; and inspired on &nbsp;
-      a( href="https://meta.stackexchange.com/questions/335629") How to add HNQ to chat room feed?
+  p 
+  | Created by 
+  a( href="https://meta.stackexchange.com/users/158100/rene") rene
+  | &nbsp; and inspired on &nbsp;
+  a( href="https://meta.stackexchange.com/questions/313353") How to add HNQ to chat room feed?

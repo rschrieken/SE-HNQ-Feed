@@ -10,14 +10,15 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "4.16.4",
-    "pug": "2.0.3"
+    "express": "^4.17.1",
+    "pug": "2.0.4",
+    "nedb": "^1.8.0"
   },
   "engines": {
-    "node": "8.x"
+    "node": "12.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
+    "url": "hhttps://github.com/rschrieken/SE-HNQ-Feed"
   },
   "license": "MIT",
   "keywords": [

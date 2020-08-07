@@ -5,11 +5,7 @@ function HotnessScraper() {
   
   var cachedHotQuestions = '[]', 
       cachedHash = null, 
-      lastRefresh,
-      UserAgents = {
-        'SE Chat': 0,
-        'Overige': 0
-      };
+      lastRefresh;
   
   function getHotQuestions(resolve, reject) {
     var options = {
@@ -56,51 +52,46 @@ function HotnessScraper() {
     });
   }
   
-  function getStatus() {
-    var sites = {}, chq = JSON.parse(cachedHotQuestions), chqsite, site, siteList = [];
-    console.log(chq);
-    for(var i=0; i< chq.length; i++) {
-      chqsite = chq[i];
-      console.log(chqsite);
+  function buildSiteDictionary(chq) {
+    var chqsite, site, sites = {};
+    chq.forEach(function(chqsite) {
       site = sites[chqsite.site];
-      console.log('site ', site);
       if (site === undefined) {
         site = {
           site: chqsite.site,
           score: 0,
           icon: chqsite.icon_url,
           answers: 0,
-          count:0
+          count: 0,
+          tags: []
         };
       }
       site.score += chqsite.display_score;
       site.answers += chqsite.answer_count;
       site.count++;
+      chqsite.tags.forEach((tag)=> {
+        if (site.tags.indexOf(tag) === -1) {
+          site.tags.push(tag);
+        }
+      });
       sites[chqsite.site] = site;
-    }
-    console.log(sites);
-    for(var s in sites) {
-      console.log(s);
-      siteList.push(sites[s])
-    }
-    return {
-      lastRefresh: lastRefresh,
-      sites: siteList,
-      agents: UserAgents,
-      title:'SE HNQ Feeds for Chat'
-    }
+    });
+    return sites;
   }
   
-  function collectStats(data) {
-     console.log('colectstats ',data);
-     
-     if (data.userAgent === 'SE Chat') {
-       UserAgents[data.userAgent]++;
-     } else {
-       UserAgents['Overige']++;
-     }
-     console.log('colectstats ua',UserAgents);
+  function getStatus() {
+    var sites, chq = JSON.parse(cachedHotQuestions), siteList = [];
+    sites = buildSiteDictionary(chq);
+    for(var s in sites) {
+      siteList.push(sites[s])
+    }
+    siteList.sort((l,r)=> { return l.score>r.score?-1:l.score<r.score?1:0; });
+    return {
+      lastRefresh: lastRefresh,
+      sites: siteList
+    }
   }
+
   
   // if we're running we keep it up to date
   setInterval(getHotQuestions, 60000);
@@ -115,8 +106,7 @@ function HotnessScraper() {
           }
         });
     },
-    getStatus: getStatus,
-    collectStats: collectStats
+    getStatus: getStatus
   }
 }
 
