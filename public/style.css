@@ -15,9 +15,18 @@ th {
   margin: 5px;
 }
 
-
+.pager span {
+  margin-left: 10px;
+   margin-right: 10px;
+  paddimg: 10px;
+}
 
 td img {
+  width: 32px;
+  height: 32px;
+}
+
+.rss {
   width: 32px;
   height: 32px;
 }

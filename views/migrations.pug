@@ -1,0 +1,45 @@
+extends shared/layout.pug
+
+block content
+      
+  h2 All SE Sites
+  
+  div(class='row') 
+  div
+    ul(class='nav')
+      li(class='nav-item')
+        a(href='/migrations/posts' class='nav-link') All migrated posts
+      li(class='nav-item')
+        a(href='/migrations/status' class='nav-link') Latest status
+
+  p Click on the RSS feed icon to start a feed or click the Live link. You'll be redirected to the actual feed.
+
+  
+  section 
+    table(class='table')
+      thead
+        tr
+          th 
+          th Site
+          th Last Check
+          th Request Feed / Link
+      tbody
+        each site in sites
+          tr
+            td 
+              img(src= site.high_resolution_icon_url) 
+            td 
+              a(href = site.site_url) !{site.name}
+            td= site.humantime
+            td 
+              if site.feed_url
+                a(href= site.feed_url) Live Feed
+              else
+                form(method='post' action='/migrations/feeds/' + site.api_site_parameter)
+                  input(type='image' class='rss' src='https://cdn.glitch.com/6384f34c-f00d-443b-b497-4ad0624d17e2%2Frss-simple.svg?v=1629219809467' title='click to generate')
+                  
+
+block pagescript
+  script.
+    App.startup(setHidden);
+  

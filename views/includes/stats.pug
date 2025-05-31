@@ -38,6 +38,6 @@ div(class='card')
         dd 
           ol
             each q in summary.queries
-              li= q.query.replace('.stackexchange.com','') + ' ' + q.count
+              li= decodeURI(q.query.replace('.stackexchange.com','')) + ' ' + q.count
             
     a(href='/status' class='card-link') Details

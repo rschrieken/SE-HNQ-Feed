@@ -1,0 +1,49 @@
+extends shared/layout.pug
+
+block content
+      
+  - 
+    function pad(num) {
+       var ps = num < 10 ? '0' + num: num.toString(); 
+       return ps;
+    }
+    function toHumanDate(ts)
+    {
+      if (ts === undefined) return '';
+      var lf = new Date(ts * 1000);  
+      return [lf.getFullYear(), pad(lf.getMonth()+1), pad(lf.getDate())].join('-') + ' ' + [pad(lf.getHours()), pad(lf.getMinutes()), pad(lf.getSeconds())].join(':');
+    }
+    
+  h2 Tracked Migrated Posts
+
+  p The seen migrated posts
+
+  
+  section 
+    table(class='table')
+      thead
+        tr
+          th 
+          th Site
+          th Title
+          th Date
+      tbody
+        each post in posts
+          tr
+            td 
+              img(src= post.high_resolution_icon_url) 
+            td 
+              a(href = post.site_url) !{post.name}
+            td 
+              a(href = post.site_url+'/q/'+post.postid ) !{post.title}
+            td
+              =toHumanDate(post.migrationdate)
+            
+    div.pager
+      a(href ='/migrations/posts?page=1') 1
+      span |
+      a(href ='/migrations/posts?page='+ prev) prev
+      span |
+      a(href ='/migrations/posts?page=' + next) next
+
+            

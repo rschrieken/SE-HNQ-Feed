@@ -1,0 +1,41 @@
+
+extends shared/layout.pug
+
+
+block content
+  
+  - 
+    function pad(num) {
+       var ps = num < 10 ? '0' + num: num.toString(); 
+       return ps;
+    }
+    function toHumanDate(ts)
+    {
+      if (ts === undefined) return '';
+      var lf = new Date(ts);  
+      return [lf.getFullYear(), pad(lf.getMonth()+1), pad(lf.getDate())].join('-') + ' ' + [pad(lf.getHours()), pad(lf.getMinutes()), pad(lf.getSeconds())].join(':');
+    }
+  
+  h2 Migration status
+
+  p Checked for migrated questions
+    span &nbsp; (quota remaining #{quota()})
+  
+  section 
+    table(class='table')
+      thead
+        tr
+          th id
+          th Site
+          th Last check
+      tbody
+        each site in sites
+          tr
+            td 
+              =site.id
+            td 
+              =site.api_site_parameter
+            td 
+              =toHumanDate(site.lastupdate)
+
+            

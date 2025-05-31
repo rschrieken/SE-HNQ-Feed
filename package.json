@@ -7,18 +7,21 @@
   "description": "A simple Hot Network Questions Custom RSS feed filter",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "./node_modules/mocha/bin/mocha tests/**/*Test.js --reporter spec"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "pug": "2.0.4",
-    "nedb": "^1.8.0"
+    "pug": "^3.0.0",
+    "nedb": "^1.8.0",
+    "mocha": "^8.2.0",
+    "better-sqlite3": "^7.4.3"
   },
   "engines": {
-    "node": "12.x"
+    "node": "16.x"
   },
   "repository": {
-    "url": "hhttps://github.com/rschrieken/SE-HNQ-Feed"
+    "url": "https://github.com/rschrieken/SE-HNQ-Feed"
   },
   "license": "MIT",
   "keywords": [

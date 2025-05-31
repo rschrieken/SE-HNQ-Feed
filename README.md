@@ -19,3 +19,7 @@ server.js
   
 rss.pug is an xml template for an rss format (still using pug)
 
+
+backup command
+
+tar cfj "backup-$(date '+%Y%m%d').tar.xz" useragents_hist.db

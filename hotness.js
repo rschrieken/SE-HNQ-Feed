@@ -10,7 +10,7 @@ function HotnessScraper() {
   function getHotQuestions(resolve, reject) {
     var options = {
         hostname: 'stackexchange.com',
-        path: '/hot-questions-for-mobile',
+        path: '/hot-questions-json',
         port: 443, // https is guaranteed to work
         secure: true, // and this can be true then ...
         method: 'GET',
@@ -23,6 +23,7 @@ function HotnessScraper() {
       // get them
     httpclient.get(options, function (res) {
       var body, hash;
+      res.on('error', function(e) { console.log(e);})
       if (res && res.headers && res.headers['content-type'] && res.headers['content-type'].indexOf('application/json') === 0 ) {
         
         body = '';
@@ -47,6 +48,15 @@ function HotnessScraper() {
         })
       } else {
         console.error('scrape failed ', res.headers);
+        body = '';
+        res.on('data', function(d) {
+              if (body.length < 512) {
+                 body += d;
+              }
+          });
+        res.on('end', function() {
+           console.log('content', body);
+        })
         if (reject) reject('scrape failed ');
       }
     });

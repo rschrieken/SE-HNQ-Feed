@@ -1,4 +1,4 @@
-const UserAgents = require('./useragents.js');
+const UserAgents = require('../useragents.js');
 var useragents = new UserAgents();
 
 var statsCache = {};

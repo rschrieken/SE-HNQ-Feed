@@ -1,5 +1,7 @@
-const UserAgents = require('./useragents.js');
+const UserAgents = require('../useragents.js');
 var useragents = new UserAgents();
+
+const QueryStringProcessor = require('../querystringProcessor.js');
 
 function HotnessController(hns) {
     
@@ -14,6 +16,10 @@ function HotnessController(hns) {
       }, add = 0, c, singleSite = '';
 
       function handleQuery(result, item) {
+        
+        var queryStringProcessor = new QueryStringProcessor(query);
+        return queryStringProcessor.handleParse(result, item);
+        
         var keys = Object.getOwnPropertyNames(query);
         if (result === true && keys.length > 0 && keys.length < 16) {
           for(var key in query){
@@ -149,8 +155,9 @@ function HotnessController(hns) {
     
     // promise to deliver data
     function executor(resolve, reject) {
+      //console.log(rawquery && rawquery['filter'] && rawquery['filter'].length > 0 ? rawquery['filter']:'');
       var feed = {
-          title: 'HNQ ' + site,
+          title: 'HNQ ' + site + (rawquery && rawquery['filter'] && rawquery['filter'].length > 0 ? ' ' + rawquery['filter']:''),
         url: 'https://'+ hostname + originalUrl,
         buildDate: new Date(),
         feeds: []

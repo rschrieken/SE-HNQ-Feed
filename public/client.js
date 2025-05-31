@@ -36,7 +36,9 @@ setInterval(function() {
   var elements = document.getElementsByClassName('relative');
   for(var i = 0; i < elements.length; i++) {
     var element = elements[i];
-    element.textContent = toHumanRelativeTime(parseInt( element.attributes['data-time'].value ,10))
+    if (element.attributes['data-time']) {
+      element.textContent = toHumanRelativeTime(parseInt( element.attributes['data-time'].value ,10))
+    }
   }
 }, 5000);
 
@@ -123,8 +125,46 @@ function setChart() {
   
 }
 
+function setHidden() {
+  console.log('setHidden');
+  var forms = document.getElementsByTagName('form');
+  for(var i=0;i<forms.length; i++) {
+    var frm = forms[i];
+    var inp = document.createElement('input');
+    inp.setAttribute('type', 'hidden');
+    inp.setAttribute('id', 'guard');
+    inp.setAttribute('name', 'guard');
+    inp.setAttribute('value', Date.now());  
+    
+    frm.appendChild(inp);
+  }
+}
+
+var App = (function () {
+  var callbacks =[], complete = false;
+  document.addEventListener('readystatechange', (evt) => {
+    if (event.target.readyState === 'complete') {
+      complete = true;
+      callbacks.forEach((i)=> {
+        setTimeout(i,0);
+      });
+    }
+  });  
+  return {
+    startup: function (cb) {
+      if (complete === true) {
+        cb()
+      } else {
+        callbacks.push(cb);
+      }
+    }
+  }
+})();
+
+/*
 document.addEventListener('readystatechange', (evt) => {
   if (event.target.readyState === 'complete') {
     setChart();
   }
 });
+*/

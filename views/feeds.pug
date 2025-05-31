@@ -37,7 +37,34 @@ block content
             code +cs-electronics
           p A feed for an exact match on mathoverflow.net you would use 
             code =mathoverflow.net
+          p Or use a filter 
+            code +?filter=(display_score gt 50) or (answer_count gt 10)
           p Tip: You can test your feed by pasting the whole url in the addressbar of your browser. See the examples below in Ready made Feeds
+    div(class='card')
+      div(class='card-header' id='advFilt')
+        h3(class='mb-0')
+          button(class='btn btn-primary' data-toggle='collapse' data-target='#advFiltCnt' aria-expanded='false' aria-controls='advFiltCnt') Advanced filter
+      div(id='advFiltCnt' class='collapse' aria-labelledby='install' data-parent='#feedsetup')
+        div(class='card-body')
+          p For creating a feed that is not based on sites but on other criteria you can create your own filter. A filter gets applied after the site selection. You can use a single + to inlude all sites.
+          p A filter is added as a query parameter named filter and is followed by an expression. In the expression values and fields can be compared with several operators and/or functions
+          p This are the operators / functions / logic
+          ol 
+            li eq Equals
+            li ne not equals
+            li gt Greater than
+            li gte Greater than or equals
+            li lt Less  than
+            li lte Less than or equals
+            li not negate
+            li contains 
+            li and both expressions need to true
+            li or  one of the expressions is true
+          p Use paranthesis to group expressions. For example <code>(display_score gt 50) and (answer_count lt 3)</code>. String values go between single quotes <code>tags contains 'number'</code>
+          p The following fields are available: site; tags; display_score; answer_count; title; user_name; question_id; icon_url; creation_date
+          p Try the url in the address bar of your browser first and copy the url once you have result. This is to prevent 
+            a(href='https://meta.stackexchange.com/q/352848/158100') encoding problems
+            
     div(class='card')
       div(class='card-header' id='install')
         h3(class='mb-0')
@@ -107,5 +134,14 @@ block content
           p(class='card-text')
             pre /hnq/=cs.stackexchange.com
           a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/=cs.stackexchange.com' target='_blank')
+           | Try it here
+  div(class='row mt-4')
+    div(class='col-sm-8')
+      div(class='card')
+        div(class='card-body')
+          h5(class='card-title') Advanced Filter
+          p(class='card-text')
+            pre /hnq/+?filter=(display_score gt 50) or (answer_count gt 10)
+          a(class='btn btn-primary btn-info' href='https://lackadaisical-appeal.glitch.me/hnq/+?filter=(display_score gt 50) or (answer_count gt 10)' target='_blank')
            | Try it here
 
