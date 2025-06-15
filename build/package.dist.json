@@ -1,0 +1,18 @@
+{
+  "name": "SE-HNQ-Feed",
+  "version": "0.0.1",
+  "description": "A simple Hot Network Questions Custom RSS feed filter",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.9.1",
+    "express": "^4.17.1",
+    "nedb": "^1.8.0",
+    "pug": "^3.0.0"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

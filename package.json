@@ -8,17 +8,18 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "build": "node ./build/esbuild.config.js",
     "test": "./node_modules/mocha/bin/mocha tests/**/*Test.js --reporter spec"
   },
   "dependencies": {
+    "better-sqlite3": "^11.9.1",
     "express": "^4.17.1",
-    "pug": "^3.0.0",
-    "nedb": "^1.8.0",
     "mocha": "^8.2.0",
-    "better-sqlite3": "^7.4.3"
+    "nedb": "^1.8.0",
+    "pug": "^3.0.0"
   },
   "engines": {
-    "node": "16.x"
+    "node": "22.x"
   },
   "repository": {
     "url": "https://github.com/rschrieken/SE-HNQ-Feed"
@@ -28,5 +29,9 @@
     "node",
     "glitch",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "esbuild": "^0.25.5",
+    "esbuild-plugin-copy": "^2.1.1"
+  }
 }

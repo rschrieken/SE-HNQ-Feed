@@ -1,3 +1,6 @@
 .sqlite_history
 
 .data/
+
+dist/
+node_modules/

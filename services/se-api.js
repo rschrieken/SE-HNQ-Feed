@@ -71,7 +71,11 @@ function get(path, params) {
   for(var p in params) {
     query.push(p + '=' + params[p]);
   }
-  query.push('key='+ process.env.SE_API_KEY);
+  if (process.env.SE_API_KEY) {
+    query.push('key='+ process.env.SE_API_KEY);
+  } else {
+    console.warn('SE-API', query, ' SE_API_KEY not set');
+  }
 
   var qp = (function(getFromApi) {
     var actualResolve;
