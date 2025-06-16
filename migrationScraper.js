@@ -27,7 +27,7 @@ function MigrationScraper() {
         headers: {
           'Accept': '*/*',
           'Accept-Encoding': 'gzip',
-          'User-Agent': 'HotQuestionScraper/1.0 https://lackadaisical-appeal.glitch.me/ https://meta.stackexchange.com/users/158100/rene'
+          'User-Agent': 'HotQuestionScraper/1.0 https://sefeeds.socvr.org/ https://meta.stackexchange.com/users/158100/rene'
         }
       }
 
