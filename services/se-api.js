@@ -136,7 +136,15 @@ function get(path, params) {
           })
           // all fetched    
           zip.on('end', function() {
-            var wrapper = JSON.parse(body);
+            var wrapper = null;
+            try {
+              wrapper = JSON.parse(body);
+            } catch(e) {
+              console.error('SE API', e, body, options.path);  
+              var err = [-2, 'No JSON', 'json parse failed'].join(' ; ');
+              reject(new Error(err));            
+              return;
+            }
             backoff = (wrapper.backoff || 0);
             if (wrapper.error_id) {
               console.error('SE API', wrapper, options.path);
