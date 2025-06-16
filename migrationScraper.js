@@ -20,12 +20,13 @@ function MigrationScraper() {
   function getMigratedQuestions(resolve, reject) {
     var options = {
         hostname: 'api.stackexchange.com',
-        path: '/2.2/search/advanced?order=desc&sort=activity&migrated=True&site=interpersonal&filter=!FmNlySEMJNuGJG_a1BKb2LDmYq' + '&key='+ process.env.SE_API_KEY,
+        path: '/2.3/search/advanced?order=desc&sort=activity&migrated=True&site=interpersonal&filter=!FmNlySEMJNuGJG_a1BKb2LDmYq' + '&key='+ process.env.SE_API_KEY,
         port: 443, // https is guaranteed to work
         secure: true, // and this can be true then ...
         method: 'GET',
         headers: {
           'Accept': '*/*',
+          'Accept-Encoding': 'gzip',
           'User-Agent': 'HotQuestionScraper/1.0 https://lackadaisical-appeal.glitch.me/ https://meta.stackexchange.com/users/158100/rene'
         }
       }
@@ -42,7 +43,10 @@ function MigrationScraper() {
 
         let zip = zlib.createGunzip();
 
-        res.pipe(zip);
+        zip.on('error', function(e) {
+          console.error('getMigratedQuestrions', e, res.headers, res.statusCode, res.statusMessage);
+          if (reject) reject('scrape failed ');  
+        });
         zip.on('data', function(d) {
               body += d;
           });
@@ -61,6 +65,7 @@ function MigrationScraper() {
             if (resolve) resolve(JSON.parse(body));
           }
         })
+        res.pipe(zip);
       } else {
         console.error('scrape failed ', res.headers);
         if (reject) reject('scrape failed ');

@@ -130,7 +130,10 @@ function get(path, params) {
           zip.on('data', function(d) {
                 body += d;
             });
-          zip.on('error', function(e) { console.log(e, statusCode, fullpath, body); })
+          zip.on('error', function(e) { 
+            console.error(e, statusCode, fullpath, body); 
+            reject(new Error([-1, e.message, 'zip error'].join(' ; ')));
+          })
           // all fetched    
           zip.on('end', function() {
             var wrapper = JSON.parse(body);
