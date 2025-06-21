@@ -75,6 +75,10 @@ function siteCronJob() {
     return;
   }
   var topsite = stmt_siteTopSelect.get();
+  if (!topsite) {
+    console.warn('no migrations needed');
+    return;
+  }
   //console.log(topsite);
   Sites.getSiteByApi(topsite.api_site_parameter)
     .then((site)=> {

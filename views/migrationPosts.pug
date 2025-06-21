@@ -43,7 +43,8 @@ block content
       a(href ='/migrations/posts?page=1') 1
       span |
       a(href ='/migrations/posts?page='+ prev) prev
-      span |
-      a(href ='/migrations/posts?page=' + next) next
+      -if (posts && posts.length > 0 )
+        span |
+        a(href ='/migrations/posts?page=' + next) next
 
             

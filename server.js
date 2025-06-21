@@ -77,20 +77,15 @@ app.post('/migrations/feeds/:site', function(request, response) {
 });
 
 app.get('/migrations/posts', function(request, response) {
-  
-  //var ctrl = migrationCtrl.getViewModel(request.hostname , request.originalUrl, request.params.site).then((feed)=>{
-   //      response.render('rss-migrated', feed);
-  //  });
-  console.log(request.params);
-  MigrartionsCtrl.getMigrationPosts(request.query.page, request.query.pagesize).then( (posts) => {
-    var page = parseInt(request.query.page||1);
-    response.render('migrationPosts', {
-      posts:posts, 
-      next: page + 1 ,
-      prev: page > 1 ? page - 1 : 1 
+  MigrartionsCtrl.getMigrationPosts(request.query.page, request.query.pagesize)
+    .then( (posts) => {
+      var page = parseInt(request.query.page||1);
+      response.render('migrationPosts', {
+        posts:posts, 
+        next: page + 1 ,
+        prev: page > 1 ? page - 1 : 1 
+      });
     });
-  }
-  );
 });
 
 app.get('/migrations/status', function(request, response) {

@@ -39,7 +39,9 @@ function loadSites() {
           logo_url: item.logo_url,
           site_type: item.site_type
         }, {upsert:true}, (err, numAffected, affectedDocuments, upsert)=>{
-          console.log(err, numAffected, affectedDocuments, upsert); 
+          if(err) {
+            console.error(err, numAffected, affectedDocuments, upsert); 
+          }
         } );
       });
     }
