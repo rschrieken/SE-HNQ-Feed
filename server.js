@@ -19,7 +19,7 @@ var apiCtrl = new ApiCtrl(hns);
 
 const MigrartionsCtrl = require('./controllers/migrationsController.js');
 
-app.set('view engine', 'pug')
+app.set('view engine', 'pug');
 
 
 // http://expressjs.com/en/starter/static-files.html
@@ -34,12 +34,12 @@ app.use((req, res, next) => {
     res.locals.paypalbusinesscode = process.env.PAYPAL_BUSINESSCODE;
     res.locals.summary = statusCtrl.getStatusSummary();
   }
-  next()
-})
+  next();
+});
 
 app.use(express.urlencoded({
   extended: true
-}))
+}));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
@@ -66,7 +66,7 @@ app.post('/migrations/feeds/:site', function(request, response) {
     
     var guard = parseInt(request.body.guard);
     if (guard && Math.abs(guard - Date.now()) < diffMS) {
-      console.log('diff ', guard , Math.abs(guard - Date.now()))
+      console.log('diff ', guard , Math.abs(guard - Date.now()));
       response.redirect('/migrations/feeds/'+ request.params.site);
     } else {
       response.redirect('/migrations');  
@@ -145,7 +145,7 @@ app.get('/api/charts', function(request, response) {
     response.json(data);
   } ).catch((err)=> {
     console.error(err);
-    response.json({error:'something went wrong'})
+    response.json({error:'something went wrong'});
   });
 });
 

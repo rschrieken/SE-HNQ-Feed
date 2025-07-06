@@ -127,4 +127,4 @@ module.exports = {
   getSitesApi: getSitesApi,
   getSiteById: getSiteById,
   getSiteByApi: getSiteByApi
-}
+};

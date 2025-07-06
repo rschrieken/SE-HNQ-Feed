@@ -31,7 +31,7 @@ function ChatroomsController()
   
   return {
     getChatrooms: getChatrooms
-  }
+  };
 }
 
 module.exports = ChatroomsController;

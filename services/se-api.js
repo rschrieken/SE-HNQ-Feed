@@ -1,6 +1,5 @@
 
 const httpclient = require('https');
-const crypto = require('crypto');
 const zlib = require("zlib");
 
 const queue = []; // {}
@@ -32,11 +31,11 @@ function getMigrated(site, page) {
       //if (site === 'stackoverflow') {console.log('/search/advanced/', options, (postWrapper.items|| []).length); } else {console.log('skip ', site)}
       postWrapper.items = postWrapper.items
         .filter((item) => item.migrated_from);
-      postWrapper.items.sort((l,r)=>{ return l.migrated_from.on_date - r.migrated_from.on_date });
+      postWrapper.items.sort((l,r)=>{ return l.migrated_from.on_date - r.migrated_from.on_date; });
       postWrapper.items = postWrapper.items.map( (post) => {
         post.last_activity_date = post.migrated_from.on_date; 
         post.migration_date = post.migrated_from.on_date; 
-        return post} );
+        return post;} );
       //if (site === 'stackoverflow') console.log('/search/advanced/ result ', (postWrapper.items|| []).length);
       resolve(postWrapper);
     }).catch(reject);
@@ -59,7 +58,10 @@ function signalQueue(){
   if (typeof(func) !== 'undefined') {
     setTimeout(() => {
       func.exec()
-        .then(()=> {if (queue.length>0) {signalQueue();}})
+        .then(()=> {
+          if (queue.length>0) {
+            signalQueue();
+          }})
         .catch((err)=>{ console.error(err);} );
     }, backoff * 1000); // seconds !
   }
@@ -94,7 +96,7 @@ function get(path, params) {
     return {
       promise: new Promise(executor),
       exec: exec
-    }
+    };
   })(getFromAPI);
   
   queue.push( qp);
@@ -114,7 +116,7 @@ function get(path, params) {
           'Accept-Encoding': 'gzip', 
           'User-Agent': 'HotQuestionScraper/1.0 https://sefeeds.socvr.org/ https://meta.stackexchange.com/users/158100/rene'
         }
-      }
+      };
 
         // get them
       httpclient.get(options, function (res) {
@@ -125,7 +127,7 @@ function get(path, params) {
           //console.log('migration scraper enc ',res.headers['content-encoding']);
           body = '';
           
-          let zip = zlib.createGunzip();
+          const zip = zlib.createGunzip();
 
           zip.on('data', function(d) {
                 body += d;
@@ -133,7 +135,7 @@ function get(path, params) {
           zip.on('error', function(e) { 
             console.error(e, statusCode, fullpath, body); 
             reject(new Error([-1, e.message, 'zip error'].join(' ; ')));
-          })
+          });
           // all fetched    
           zip.on('end', function() {
             var wrapper = null;
@@ -145,21 +147,27 @@ function get(path, params) {
               reject(new Error(err));            
               return;
             }
-            backoff = (wrapper.backoff || 0);
+           
             if (wrapper.error_id) {
+              // if we have an error and a backoff, increase our backoff time
+              if (wrapper.backoff) {
+                backoff = backoff + wrapper.backoff;
+              }
               console.error('SE API', wrapper, options.path);
-              var err = [wrapper.error_id, wrapper.error_message, wrapper.error_name].join(' ; ');
-              reject(new Error(err));
+              reject(new Error([wrapper.error_id, wrapper.error_message, wrapper.error_name].join(' ; ')));
             } else {
-              if (wrapper.quota_remaining < 1000) console.log('quota remaining', wrapper.quota_remaining)
+               backoff = (wrapper.backoff || 0);
+              if (wrapper.quota_remaining < 1000) {
+                  console.log('quota remaining', wrapper.quota_remaining);
+              }
               quota = wrapper.quota_remaining;
               resolve(wrapper);
             }
-          })
+          });
           res.pipe(zip);
         } else {
           console.error('get se api failed ', res.headers);
-          if (reject) reject('scrape failed ');
+          if (reject) reject('scrape failed');
         }
       });
   }
@@ -172,4 +180,4 @@ module.exports = {
   getSites: getSites,
   hasBackoff: () => {return backoff > 0;},
   getQuota : () => {return quota;}
-}
+};

@@ -43,7 +43,7 @@ function updateMigrations(wrapper, site) {
         creationdate: item.creation_date,
         lastactivitydate: item.last_activity_date,
         migrationdate: item.migration_date
-        })
+        });
     }
   });
   
@@ -54,7 +54,7 @@ function updateMigrations(wrapper, site) {
 
 function populateMigrations(site, page) {
   if (Api.hasBackoff()) {
-    console.warn('siteCron job backing out of pop mig due to the API having backoff ')
+    console.warn('siteCron job backing out of pop mig due to the API having backoff ');
     return;
   }
    Api.getMigrated(site.api_site_parameter, page).then((wrapper) => { 
@@ -71,7 +71,7 @@ function populateMigrations(site, page) {
 
 function siteCronJob() {
   if (Api.hasBackoff()) {
-    console.warn('siteCron job backing out due to the API having backoff ')
+    console.warn('siteCron job backing out due to the API having backoff ');
     return;
   }
   var topsite = stmt_siteTopSelect.get();
@@ -84,7 +84,7 @@ function siteCronJob() {
     .then((site)=> {
       populateMigrations(site);  
     })
-    .catch(function(e) {console.error('se-mugration-topsite ',e)});
+    .catch(function(e) {console.error('se-mugration-topsite ',e);});
 }
 
 function initIntervalForApiJob() {
@@ -119,7 +119,7 @@ function mapPostToFeed(posts, site_url) {
 }
 
 function getMigrations(api) {
-  const hostname = 'https://lackadaisical-appeal.glitch.me' // fix me
+  const hostname = 'https://lackadaisical-appeal.glitch.me'; // fix me
   // console.log(api);
   function exec(resolve, reject) {
     Sites.getSiteByApi(api).then(site => {
@@ -150,7 +150,7 @@ function getMigrationStatus() {
 }
 
 function getMigrationPosts(page, pagesize) {
-  if (pagesize > 50) pagesize = 50
+  if (pagesize > 50) pagesize = 50;
   pagesize = pagesize || 15;
   page = page || 1;
   return stmt_allpostsSelect.all(pagesize, (page - 1) * pagesize + 1);

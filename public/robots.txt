@@ -1,4 +1,4 @@
-User-agent: SE-Chat
+User-agent: SE Chat
 Allow: /
 
 User-agent: *

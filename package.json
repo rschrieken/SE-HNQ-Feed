@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node server.js",
     "build": "node ./build/esbuild.config.js",
-    "test": "./node_modules/mocha/bin/mocha tests/**/*Test.js --reporter spec"
+    "test": "mocha  --recursive --reporter spec",
+    "coverage": "nyc mocha --recursive"
   },
   "dependencies": {
     "better-sqlite3": "^11.9.1",
@@ -31,8 +32,12 @@
     "express"
   ],
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "chai": "^5.2.0",
     "esbuild": "^0.25.5",
     "esbuild-plugin-copy": "^2.1.1",
-    "eslint": "^9.29.0"
+    "eslint": "^9.29.0",
+    "nyc": "^17.1.0",
+    "sinon": "^21.0.0"
   }
 }
